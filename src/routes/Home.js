@@ -1,5 +1,6 @@
 import React from "react";
 import { gql, useQuery } from "@apollo/client";
+import Movie from "../components/Movie";
 
 const GET_MOVIES = gql`
   {
@@ -13,19 +14,19 @@ const GET_MOVIES = gql`
 const Home = () => {
   const { loading, error, data } = useQuery(GET_MOVIES);
   console.log(loading, error, data);
-  if (loading) {
-    return "loading...";
-  }
-  if (data && data.movies) {
-    return (
-      <ul>
-        {data.movies.map((m) => (
-          <li key={m.id}>{m.medium_cover_image}</li>
-        ))}
-      </ul>
-    );
-  }
-  return <h1>Home</h1>;
+
+  return (
+    <div>
+      {loading && <div>Loading...</div>}
+      {!loading && data.movies && (
+        <ul>
+          {data.movies.map((m) => (
+            <Movie key={m.id} id={m.id} />
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 };
 
 export default Home;
