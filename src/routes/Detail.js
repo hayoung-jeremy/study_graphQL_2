@@ -58,14 +58,19 @@ const Detail = () => {
     variables: { id: +id },
   });
   console.log(loading, data);
+  // data 를 component 에서 바로 data.map()... 처럼 사용할 수 없음, 초기 data 는 정의되지 않았기 때문
   return (
     <Container>
       <Column>
-        <Title>Name</Title>
-        <Subtitle>English / 4.5</Subtitle>
-        <Description>Lorem </Description>
+        <Title>{loading ? "Loading..." : data.movie.title}</Title>
+        <Subtitle>
+          {data?.movie?.language} &middot; {data?.movie?.rating}
+        </Subtitle>
+        <Description>{data?.movie?.description_full} </Description>
       </Column>
-      <Poster></Poster>
+      <Poster
+        bg={data && data.movie ? data.movie.medium_cover_image : ""}
+      ></Poster>
     </Container>
   );
 };
